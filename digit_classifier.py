@@ -85,3 +85,11 @@ show_sample(
   test_images, 
   ['Predicted: %d' % np.argmax(result) for result in predictions]
   )
+
+# Tensorflow ver.2에서 모델 저장 방식: SavedModel, Keras H5 (SavedModel 권장)
+# Save model.
+model_path = 'saved_model/mnist_model'
+model.save(model_path)
+print("DigitClassifier가 SavedModel로 저장되었습니다.")
+
+# 저장된 파일의 정상 작동 확인을 위해 verify_model.py 생성
