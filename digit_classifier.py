@@ -25,10 +25,10 @@ def show_sample(images, labels, sample_count=25):
 # Normalize the input image so that each pixel value is between 0 to 1.
 # Mnist 받아오기
 mnist = keras.datasets.mnist
-(train_images, train_labels), (test_imags, test_labels) = mnist.load_data()
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 
 a = len(train_images)
-b = len(test_imags)
+b = len(test_images)
 print("학습 이미지 총 수 = {}".format(a))
 print("테스트 이미지 총 수 = {}".format(b))
 
@@ -71,3 +71,17 @@ model.fit(train_images, train_labels, epochs = 5)
 # 모델 구조를 보는 부분
 model.summary()
 
+# Evaluate the model using test dataset.
+test_loss, test_acc = model.evaluate(test_images, test_labels)  # test_acc를 통해 정확도 나오게
+print('Test accuracy:{0} ===> {1}%'.format(test_acc, round(test_acc*100)) ) # round(test_acc*100) = 정확도를 퍼센티지로
+
+# 모델을 사용해 이미지를 어떻게 판별했는지 25개의 이미지 데이터로 보기
+# Predict the labels of digit images in our test dataset.
+predictions = model.predict(test_images)    # 학습된 모델을 이용해 테스트 데이터 예측
+
+# Then plot the first 25 test images and their predicted labels.
+# 결과값 25개만 보여주는 코드
+show_sample(
+  test_images, 
+  ['Predicted: %d' % np.argmax(result) for result in predictions]
+  )
