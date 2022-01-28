@@ -93,3 +93,16 @@ model.save(model_path)
 print("DigitClassifier가 SavedModel로 저장되었습니다.")
 
 # 저장된 파일의 정상 작동 확인을 위해 verify_model.py 생성
+
+# tenslorflow lite 모델로 변환하는 코드 추가
+# Convert Keras model to TF Lite format.
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+# mnist.tf 파일에 저장하는 코드
+# Save the TF Lite model as file
+f = open('mnist.tflite', "wb")
+f.write(tflite_model)
+f.close()
+
+# 저장된 .tflite 파일이 정상 작동하는지 알아보기 위해 verify_tflite_model.py 생성
