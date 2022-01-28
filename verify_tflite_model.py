@@ -44,3 +44,25 @@ input_image = np.expand_dims(np.array(image, dtype=np.float32) / 255.0, 0)
 
 # Show the pre-processed input image
 show_sample(input_image, ['Input Image'], 1)
+
+# TF Lite path 설정
+# Read lite model for tensorflow
+# tflite_model = None
+tflite_path = "mnist.tflite"
+with open(tflite_path, 'rb') as f:
+    tflite_model = f.read()
+# 데이터 읽어서 집어넣기
+
+# tensorflow lite 에서 모델을 실행하기 위해 interpreter 사용
+# Run inference with TensorFlow Lite
+interpreter = tf.lite.Interpreter(model_content=tflite_model)
+interpreter.allocate_tensors()
+interpreter.set_tensor(interpreter.get_input_details()[0]["index"], input_image)    # input
+interpreter.invoke()    # interpreter 실행 코드
+output = interpreter.tensor(interpreter.get_output_details()[0]["index"])()[0]      # output
+
+# Print the model's classification result
+digit = np.argmax(output)   # 실제 값 digit에 저장
+
+show_sample(input_image, ['Output={}'.format(digit)], 1)
+print('Predicted Digit: {0}\nConfidence: {1} ===> {2}%'.format(digit, output[digit], round(output[digit]*100)))
