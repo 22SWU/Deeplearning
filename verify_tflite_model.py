@@ -45,6 +45,7 @@ input_image = np.expand_dims(np.array(image, dtype=np.float32) / 255.0, 0)
 # Show the pre-processed input image
 show_sample(input_image, ['Input Image'], 1)
 
+
 # TF Lite path 설정
 # Read lite model for tensorflow
 # tflite_model = None
@@ -66,3 +67,5 @@ digit = np.argmax(output)   # 실제 값 digit에 저장
 
 show_sample(input_image, ['Output={}'.format(digit)], 1)
 print('Predicted Digit: {0}\nConfidence: {1} ===> {2}%'.format(digit, output[digit], round(output[digit]*100)))
+
+# 이후 안드로이드 스튜디오
